@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Clock with Date</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f4f8;
+        color: #333;
+        text-align: center;
+        padding: 40px 15px;
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    .clock-container {
+        max-width: 700px;
+        margin: auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    .clock {
+        padding: 12px 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .clock:last-child {
+        border-bottom: none;
+    }
+
+    .location {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .time {
+        font-size: 20px;
+        color: #0077cc;
+    }
+
+    .date {
+        font-size: 14px;
+        color: #666;
+    }
+
+    footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🌍 World Clock</h1>
+
+<div class="clock-container" id="clocks"></div>
+
+<footer>
+    Live local time and date worldwide
+</footer>
+
+<script>
+const zones = [
+    { name: "🇺🇸 USA (New York)", tz: "America/New_York" },
+    { name: "🇩🇪 Germany (Berlin)", tz: "Europe/Berlin" },
+    { name: "🇮🇳 India", tz: "Asia/Kolkata" },
+    { name: "🇧🇷 Brazil", tz: "America/Sao_Paulo" },
+    { name: "🇦🇷 Argentina", tz: "America/Argentina/Buenos_Aires" },
+    { name: "🇯🇵 Japan", tz: "Asia/Tokyo" },
+    { name: "🇨🇳 China", tz: "Asia/Shanghai" },
+    { name: "🇵🇰 Pakistan", tz: "Asia/Karachi" },
+    { name: "🇲🇽 Mexico", tz: "America/Mexico_City" },
+   	{ name: "🇨🇷 Costa Rica", tz: "America/Costa_Rica" }
+];
+
+function updateClocks() {
+    const now = new Date();
+    let html = "";
+
+    zones.forEach(z => {
+        const time = now.toLocaleTimeString("en-US", {
+            timeZone: z.tz,
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true
+        });
+
+        const date = now.toLocaleDateString("en-US", {
+            timeZone: z.tz,
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+        html += `
+            <div class="clock">
+                <div class="location">${z.name}</div>
+                <div class="time">${time}</div>
+                <div class="date">${date}</div>
+            </div>
+        `;
+    });
+
+    document.getElementById("clocks").innerHTML = html;
+}
+
+setInterval(updateClocks, 1000);
+updateClocks();
+</script>
+
+</body>
+</html>
